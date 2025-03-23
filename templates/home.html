@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | StegoSecure</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome</h2>
+        
+        <div class="feature-container">
+            <a href="{{ url_for('image_stego_route') }}" class="feature-card">
+                <i class="fas fa-image"></i>
+                <h3>Image Steganography</h3>
+            </a>
+
+            <a href="{{ url_for('audio_stego_route') }}" class="feature-card">
+                <i class="fas fa-music"></i>
+                <h3>Audio Steganography</h3>
+            </a>
+
+            <a href="{{ url_for('qr_stego_route') }}" class="feature-card">
+                <i class="fas fa-qrcode"></i>
+                <h3>QR Code Steganography</h3>
+            </a>
+        </div>
+
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+</body>
+</html>

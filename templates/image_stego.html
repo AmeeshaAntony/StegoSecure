@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Steganography | StegoSecure</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='image_stego.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Image Steganography</h2>
+
+        <!-- Success Message -->
+        {% if success_hide %}
+            <p class="success">✅ Message hidden successfully! <a href="{{ output_image }}" download>Download Image</a></p>
+        {% endif %}
+
+        {% if success_extract %}
+            <p class="success">🔓 Extracted Message: <strong>{{ extracted_message }}</strong></p>
+        {% endif %}
+
+        <!-- Hide Message Form -->
+        <!-- Hide Message Form -->
+<form method="POST" enctype="multipart/form-data">
+    <h3>Hide Message</h3>
+    <input type="file" name="image" accept="image/*" required>
+    <textarea name="message" placeholder="Enter secret message" required></textarea>
+    <button type="submit" name="action" value="hide">Hide Message</button>
+</form>
+
+<!-- Extract Message Form -->
+<form method="POST" enctype="multipart/form-data">
+    <h3>Extract Message</h3>
+    <input type="file" name="image" accept="image/*" required>
+    <button type="submit" name="action" value="extract">Extract Message</button>
+</form>
+
+
+        <a href="{{ url_for('home') }}" class="back-btn">Back to Home</a>
+    </div>
+</body>
+</html>

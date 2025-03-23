@@ -1,0 +1,76 @@
+/* Full-page background */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    font-family: Arial, sans-serif;
+}
+
+/* Container styling */
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    color: white;
+}
+
+/* Headings */
+h2, h3 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+/* Input fields */
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+}
+
+/* Buttons */
+button {
+    background: #00b894;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #008b72;
+}
+
+/* Extracted message */
+p {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+/* Back button */
+.back-btn {
+    display: block;
+    margin-top: 15px;
+    background: #ff7675;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.back-btn:hover {
+    background: #d63031;
+}

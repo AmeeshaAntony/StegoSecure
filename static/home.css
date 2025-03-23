@@ -1,0 +1,73 @@
+/* Full-page background */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #2a2a72, #009ffd);
+}
+
+/* Container styling */
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+}
+
+/* Welcome message */
+h2 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Feature container */
+.feature-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Feature cards */
+.feature-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+    font-size: 18px;
+    transition: background 0.3s ease;
+}
+
+.feature-card i {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+/* Hover effect on feature cards */
+.feature-card:hover {
+    background: rgba(205, 227, 8, 0.4);
+}
+
+/* Logout button */
+.logout-btn {
+    display: block;
+    margin-top: 20px;
+    background: #ff4d4d;
+    padding: 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: #b30000;
+}
