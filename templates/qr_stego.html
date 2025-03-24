@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Steganography | StegoSecure</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='qr_stego.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>QR Code Steganography</h2>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="stego-section">
+            <h3>Hide Message in QR Code</h3>
+            <form method="POST">
+                <input type="hidden" name="action" value="hide">
+                <textarea name="message" placeholder="Enter your secret message..." required></textarea>
+                <button type="submit">Generate QR Code</button>
+            </form>
+            
+            {% if output_qr %}
+                <div class="result-section">
+                    <h4>Message Hidden Successfully!</h4>
+                    <img src="{{ url_for('static', filename='uploads/stego_qr.png') }}" alt="Generated QR Code">
+                    <a href="{{ url_for('download_qr') }}" class="download-btn">Download QR Code</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="stego-section">
+            <h3>Extract Message from QR Code</h3>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="extract">
+                <input type="file" name="qr_code" accept="image/*" required>
+                <button type="submit">Extract Message</button>
+            </form>
+
+            {% if result %}
+                <div class="result-section">
+                    <h4>Extracted Message:</h4>
+                    <p class="extracted-text">{{ result }}</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="back-home">
+            <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

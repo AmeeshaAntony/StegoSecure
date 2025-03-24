@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Steganography</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='audio_stego.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Audio Steganography</h2>
+
+        <!-- Hide Message Form -->
+        <h3>Hide a Secret Message</h3>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="audio" accept=".wav" required>
+            <textarea name="message" placeholder="Enter secret message..." required></textarea>
+            <button type="submit" name="action" value="hide">Hide Message</button>
+        </form>
+
+        <!-- Show Download Link after Hiding -->
+        {% if output_audio %}
+            <p style="color: green;">✅ Message saved! <a href="{{ url_for('static', filename=output_audio) }}" download>Download File</a></p>
+        {% endif %}
+
+        <!-- Extract Message Form -->
+        <h3>Extract Hidden Message</h3>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="audio" accept=".wav" required>
+            <button type="submit" name="action" value="extract">Extract Message</button>
+        </form>
+
+        <!-- Show Extracted Message -->
+        {% if result %}
+            <p style="color: blue;"><strong>🔓 Extracted Message:</strong> {{ result }}</p>
+        {% endif %}
+
+        <!-- Back to Home -->
+        <a href="{{ url_for('home') }}" class="back-button">🏠 Back to Home</a>
+    </div>
+</body>
+</html>

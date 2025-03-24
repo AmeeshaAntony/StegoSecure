@@ -1,37 +1,19 @@
-import os
-import cv2
 import qrcode
-from pyzbar.pyzbar import decode
+from PIL import Image
 
-def generate_qr():
-    """Ask for an image path first, then generate a QR code with a secret message."""
-    output_qr = input("Enter the QR image path to save (e.g., my_qr.png): ")
+def generate_qr(message, output_path):
+    """Generate a QR code from the message and save it to the given path."""
+    qr = qrcode.make(message)
+    qr.save(output_path)
+    return f"QR Code saved successfully at {output_path}"
 
-    # Ensure file extension is .png
-    if not output_qr.lower().endswith(".png"):
-        output_qr += ".png"
-
-    message = input("Enter the secret message to hide in QR: ")
-
-    qr = qrcode.QRCode(version=1, box_size=10, border=5)
-    qr.add_data(message)
-    qr.make(fit=True)
-    img = qr.make_image(fill='black', back_color='white')
-    img.save(output_qr)
-
-    return f"✅ QR code saved as {output_qr}"
-
-def decode_qr(qr_path):
-    """Decode the message from an existing QR image."""
-    if not os.path.exists(qr_path):
-        return "❌ Error: QR code file not found."
-
-    img = cv2.imread(qr_path)
-    if img is None:
-        return "❌ Error: Unable to load the image. Make sure it's a valid QR code image."
-
+def decode_qr(image_path):
+    """Decode a QR code and return the hidden message."""
+    from pyzbar.pyzbar import decode
+    img = Image.open(image_path)
     decoded_objects = decode(img)
-    if not decoded_objects:
-        return "❌ No QR code detected in the image."
-
-    return f"{decoded_objects[0].data.decode('utf-8')}"
+    
+    if decoded_objects:
+        return decoded_objects[0].data.decode("utf-8")
+    else:
+        return "No QR code found!"
