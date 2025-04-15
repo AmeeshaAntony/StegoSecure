@@ -19,8 +19,14 @@
         </form>
 
         <!-- Show Download Link after Hiding -->
-        {% if output_audio %}
-            <p style="color: green;">✅ Message saved! <a href="{{ url_for('static', filename=output_audio) }}" download>Download File</a></p>
+        {% if output_audio_filename %}
+            <p style="color: green;">✅ Message saved!</p>
+            <audio controls>
+                <source src="{{ url_for('serve_uploaded_audio', filename=output_audio_filename) }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+            <br>
+            <a href="{{ url_for('serve_uploaded_audio', filename=output_audio_filename) }}" download>⬇️ Download Stego Audio</a>
         {% endif %}
 
         <!-- Extract Message Form -->
@@ -31,8 +37,8 @@
         </form>
 
         <!-- Show Extracted Message -->
-        {% if result %}
-            <p style="color: blue;"><strong>🔓 Extracted Message:</strong> {{ result }}</p>
+        {% if extracted_message %}
+            <p style="color: blue;"><strong>🔓 Extracted Message:</strong> {{ extracted_message }}</p>
         {% endif %}
 
         <!-- Back to Home -->

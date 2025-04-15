@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, send_file
+from flask import Flask, render_template, request, redirect, send_from_directory, url_for, flash, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import qrcode
@@ -142,11 +142,15 @@ def image_stego_route():
         output_image=output_image
     )
 
+@app.route('/static/uploads/<filename>')
+def serve_uploaded_audio(filename):
+    return send_from_directory('static/uploads', filename)
+
 # Audio Steganography Route
 @app.route('/audio_stego', methods=['GET', 'POST'])
 @login_required
 def audio_stego_route():
-    output_audio = None
+    output_audio_filename = None
     extracted_message = None
 
     if request.method == 'POST':
@@ -165,10 +169,12 @@ def audio_stego_route():
                 return redirect(request.url)
 
             input_audio_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(audio_file.filename))
-            output_audio = os.path.join(app.config['UPLOAD_FOLDER'], "stego_audio.wav")
+            output_audio_filename = "stego_audio.wav"
+            output_audio_path = os.path.join(app.config['UPLOAD_FOLDER'], output_audio_filename)
+
             audio_file.save(input_audio_path)
 
-            stego_audio.hide_text_in_audio(input_audio_path, secret_text, output_audio)
+            stego_audio.hide_text_in_audio(input_audio_path, secret_text, output_audio_path)
             flash("Message hidden successfully!", "success")
 
         elif action == "extract":
@@ -183,7 +189,7 @@ def audio_stego_route():
             extracted_message = stego_audio.extract_text_from_audio(input_audio_path)
             flash("Message extracted successfully!", "success")
 
-    return render_template('audio_stego.html', output_audio=output_audio, extracted_message=extracted_message)
+    return render_template('audio_stego.html', output_audio_filename=output_audio_filename, extracted_message=extracted_message)
 
 # QR Code Steganography Route
 @app.route('/qr_stego', methods=['GET', 'POST'])
