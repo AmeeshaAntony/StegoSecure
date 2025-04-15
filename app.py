@@ -8,19 +8,30 @@ import os
 import stego_image
 import stego_audio
 import stego_qr
+from models import db, Recipient
 
 # Flask App Setup
 app = Flask(__name__)
+
+# Configure app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
-UPLOAD_FOLDER = "static/uploads"
+# Initialize db
+db = SQLAlchemy(app)
+
+# Initialize login manager
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 # Ensure upload directory exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-db = SQLAlchemy(app)
+# Create tables if they don't exist
+with app.app_context():
+    db.create_all()
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
@@ -239,6 +250,28 @@ def download_qr():
     else:
         flash("QR code not found!", "danger")
         return redirect(url_for('qr_stego_route'))
+
+@app.route('/recipient_details', methods=['GET', 'POST'])
+@login_required
+def recipient_details_route():
+    message = None
+
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        file = request.files['file']
+
+        if file:
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+
+            recipient = Recipient(name=name, email=email, file=filename)
+            db.session.add(recipient)
+            db.session.commit()
+            message = "Recipient details saved successfully!"
+
+    return render_template('recipient_details.html', message=message)
 
 # Run App
 if __name__ == "__main__":
